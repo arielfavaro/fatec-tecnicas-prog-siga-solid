@@ -25,13 +25,13 @@ public class Matricula {
     private double valorBase;
     private Desconto desconto;
 
-    // Violação do DIP: dependência direta da classe concreta.
-    private GravadorMySQL gravador = new GravadorMySQL();
+    private MatriculaRepositorio repositorio;
 
-    public Matricula(Aluno aluno, double valorBase, Desconto desconto) {
+    public Matricula(Aluno aluno, double valorBase, Desconto desconto, MatriculaRepositorio repositorio) {
         this.aluno = aluno;
         this.valorBase = valorBase;
         this.desconto = desconto != null ? desconto : new SemDesconto();
+        this.repositorio = repositorio;
     }
 
     // OCP aplicado: aberto para extensão (novos descontos), fechado para modificação.
@@ -39,9 +39,9 @@ public class Matricula {
         return desconto.aplicar(valorBase);
     }
 
-    // Persiste a matrícula usando a implementação concreta (acoplamento indevido).
+    // DIP aplicado: persiste através da abstração (MatriculaRepositorio), desacoplado de implementação concreta.
     public void salvar() {
-        gravador.gravar("Matrícula de " + aluno.getNome()
+        repositorio.gravar("Matrícula de " + aluno.getNome()
                 + " - mensalidade: " + calcularMensalidade());
     }
 }

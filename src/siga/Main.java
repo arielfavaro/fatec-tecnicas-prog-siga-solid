@@ -33,13 +33,14 @@ public class Main {
 
         System.out.println();
 
-        // OCP aplicado: cálculo extensível via polimorfismo (Strategy) sem alterar Matricula
-        Matricula m1 = new Matricula(alunos.get(0), 1000.0, new DescontoBolsista());
-        Matricula m2 = new Matricula(alunos.get(1), 1000.0, new SemDesconto());
+        // DIP aplicado: Matricula depende da abstração MatriculaRepositorio, injetada via construtor
+        MatriculaRepositorio repositorioMatricula = new GravadorMySQL();
+        Matricula m1 = new Matricula(alunos.get(0), 1000.0, new DescontoBolsista(), repositorioMatricula);
+        Matricula m2 = new Matricula(alunos.get(1), 1000.0, new SemDesconto(), repositorioMatricula);
         System.out.println("Mensalidade (bolsista): " + m1.calcularMensalidade());
         System.out.println("Mensalidade (sem desconto): " + m2.calcularMensalidade());
 
-        // PROBLEMA 3 (DIP): Matricula depende diretamente de GravadorMySQL.
+        // Persistência executada via repositório desacoplado
         m1.salvar();
         m2.salvar();
 
