@@ -55,3 +55,17 @@ Ao final, deve ser possível **adicionar um novo tipo de desconto** e **trocar o
 ## Padrão de entrega
 
 Conforme a ficha de atividade prática: identificadores em português, código formatado, entrega no repositório Git com README e commits descritivos. O uso de IA para gerar o código é proibido nesta atividade (ver seção 5.3 da ficha).
+
+---
+
+## Rodar via Docker Compose
+
+Pré-requisito: Docker e Docker Compose instalados.
+
+```bash
+# Buildar e executar o projeto
+docker compose up --build
+
+# Ou apenas executar (compilação automática via volume)
+docker compose up
+```
